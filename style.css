@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap');
+
+:root {
+    --bg-color: #323437;
+    --main-color: #e2b714;
+    --caret-color: #e2b714;
+    --sub-color: #646669;
+    --text-color: #d1d0c5;
+    --error-color: #ca4754;
+    --error-extra-color: #7e2a33;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Roboto Mono', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    transition: background-color 0.25s, color 0.25s;
+}
+
+#app {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    padding: 2rem;
+}
+
+#caret {
+    position: absolute;
+    width: 2px;
+    height: 1.8rem;
+    background-color: var(--caret-color);
+    border-radius: 2px;
+    transition: transform 0.1s ease-out, background-color 0.25s;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#caret.idle {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+#words-wrapper {
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+#words {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6em;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: var(--sub-color);
+    transition: transform 0.25s ease;
+}
+
+.word {
+    display: flex;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.25s;
+}
+
+.word.error {
+    border-bottom-color: var(--error-color);
+}
+
+.letter {
+    position: relative;
+    min-width: 0.6em;
+    transition: color 0.1s;
+}
+
+.letter.correct {
+    color: var(--text-color);
+}
+
+.letter.incorrect {
+    color: var(--error-color);
+}
+
+.letter.extra {
+    color: var(--error-extra-color);
+    opacity: 0.7;
+}
+
+.hint {
+    text-align: center;
+    color: var(--sub-color);
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    opacity: 1;
+    transition: opacity 0.25s;
+}
