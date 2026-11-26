@@ -79,6 +79,18 @@ window.addEventListener('keydown', (e) => {
             state.currentLetterIndex--;
             const letterToReset = letters[state.currentLetterIndex];
             letterToReset.classList.remove('correct', 'incorrect', 'extra');
+        } else if (state.currentWordIndex > 0) {
+            state.currentWordIndex--;
+
+            const previousWordText = state.words[state.currentLetterIndex];
+            state.currentLetterIndex = previousWordText.length;
+
+            const prevWordDiv = wordsContainer.children[state.currentWordIndex];
+
+            const extraLetters = prevWordDiv.querySelectorAll('.extra');
+            extraLetters.forEach(extraSpan => extraSpan.remove());
+
+            prevWordDiv.classList.remove('error');
         }
         updateCaretPosition();
         return;
