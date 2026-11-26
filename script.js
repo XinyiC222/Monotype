@@ -77,8 +77,13 @@ window.addEventListener('keydown', (e) => {
     if(e.key === 'Backspace') {
         if (state.currentLetterIndex > 0) {
             state.currentLetterIndex--;
-            const letterToReset = letters[state.currentLetterIndex];
-            letterToReset.classList.remove('correct', 'incorrect', 'extra');
+            const letterToDelete = letters[state.currentLetterIndex];
+            
+            if(state.currentLetterIndex >= currentWord.length) {
+                letterToDelete.remove();
+            }else {
+                letterToDelete.classList.remove('correct', 'incorrect', 'extra');
+            }
         } else if (state.currentWordIndex > 0) {
             state.currentWordIndex--;
 
