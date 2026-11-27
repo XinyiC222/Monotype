@@ -17,12 +17,10 @@ function initWords() {
     wordsContainer.innerHTML = '';
     
     state.words.forEach((word, wordIdx) => {
-        // Create a new div for the word
         const wordDiv = document.createElement('div');
         wordDiv.classList.add('word');
         wordDiv.dataset.wordIndex = wordIdx;
         
-        // Create a span for each letter
         for(let i = 0; i < word.length; i++) {
             const letterSpan = document.createElement('span');
             letterSpan.classList.add('letter');
@@ -36,7 +34,7 @@ function initWords() {
     updateCaretPosition();
 }
 
-// Render Function (Moves the caret)
+// FIX: Using getBoundingClientRect for pixel-perfect caret positioning
 function updateCaretPosition() {
     const currentWordDiv = wordsContainer.children[state.currentWordIndex];
     if(!currentWordDiv) return;
@@ -46,13 +44,24 @@ function updateCaretPosition() {
     
     if (state.currentLetterIndex < letters.length) {
         targetElement = letters[state.currentLetterIndex];
-        caret.style.transform = `translate(${targetElement.offsetLeft}px, ${currentWordDiv.offsetTop + targetElement.offsetTop}px)`;
     } else {
-        const lastLetter = letters[letters.length - 1];
-        const endX = lastLetter.offsetLeft + lastLetter.offsetWidth;
-        caret.style.transform = `translate(${endX}px, ${currentWordDiv.offsetTop + lastLetter.offsetTop}px)`;
+        targetElement = letters[letters.length - 1];
     }
     
+    // Get viewport-relative positions
+    const targetRect = targetElement.getBoundingClientRect();
+    const appRect = app.getBoundingClientRect();
+    
+    // Calculate relative position
+    let x = targetRect.left - appRect.left;
+    const y = targetRect.top - appRect.top;
+    
+    // If caret is at end of word, add the element's width
+    if (state.currentLetterIndex >= letters.length) {
+        x += targetRect.width;
+    }
+    
+    caret.style.transform = `translate(${x}px, ${y}px)`;
     caret.classList.remove('idle');
 }
 
@@ -64,44 +73,40 @@ window.addEventListener('click', () => {
 });
 
 window.addEventListener('keydown', (e) => {
-    // If not focused or finished, do nothing
     if (!state.isFocused || state.isFinished) return;
     
-    // Ignore special keys
     if (e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' || e.key === 'Meta') return;
 
     const currentWord = state.words[state.currentWordIndex];
     const letters = wordsContainer.children[state.currentWordIndex].querySelectorAll('.letter');
 
-    // Handle Backspace
     if(e.key === 'Backspace') {
         if (state.currentLetterIndex > 0) {
             state.currentLetterIndex--;
             const letterToDelete = letters[state.currentLetterIndex];
-            
-            if(state.currentLetterIndex >= currentWord.length) {
+
+            if (state.currentLetterIndex >= currentWord.length) {
                 letterToDelete.remove();
-            }else {
+            } else {
                 letterToDelete.classList.remove('correct', 'incorrect', 'extra');
             }
-        } else if (state.currentWordIndex > 0) {
+        } 
+        else if (state.currentWordIndex > 0) {
             state.currentWordIndex--;
-
-            const previousWordText = state.words[state.currentLetterIndex];
+            const previousWordText = state.words[state.currentWordIndex];
             state.currentLetterIndex = previousWordText.length;
-
+            
             const prevWordDiv = wordsContainer.children[state.currentWordIndex];
-
             const extraLetters = prevWordDiv.querySelectorAll('.extra');
             extraLetters.forEach(extraSpan => extraSpan.remove());
-
+            
             prevWordDiv.classList.remove('error');
         }
+        
         updateCaretPosition();
         return;
     }
 
-    // Handle Space
     if(e.key === ' ') {
         e.preventDefault();
         if(state.currentLetterIndex > 0) {
@@ -112,7 +117,6 @@ window.addEventListener('keydown', (e) => {
         return;
     }
 
-    // Handle regular characters
     if(e.key.length === 1) {
         if(state.currentLetterIndex < currentWord.length) {
             const expectedChar = currentWord[state.currentLetterIndex];
@@ -125,7 +129,6 @@ window.addEventListener('keydown', (e) => {
             }
             state.currentLetterIndex++;
         } else {
-            // Typing extra letters
             const extraSpan = document.createElement('span');
             extraSpan.classList.add('letter', 'extra', 'incorrect');
             extraSpan.textContent = e.key;
@@ -136,8 +139,5 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-// Start app
 initWords();
-
-// Make caret blink initially
 caret.classList.add('idle');

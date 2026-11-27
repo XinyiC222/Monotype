@@ -36,11 +36,13 @@ body {
 
 #caret {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 2px;
     height: 1.8rem;
     background-color: var(--caret-color);
     border-radius: 2px;
-    transition: transform 0.1s ease-out, background-color 0.25s;
+    transition: transform 0.1s ease-out, background-color 0.25s, height 0.1s ease-out;
     pointer-events: none;
     z-index: 10;
 }
@@ -64,7 +66,6 @@ body {
 #words {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6em;
     font-size: 1.5rem;
     line-height: 1.5;
     color: var(--sub-color);
@@ -73,6 +74,7 @@ body {
 
 .word {
     display: flex;
+    margin: 0 0.25em;
     border-bottom: 2px solid transparent;
     transition: border-color 0.25s;
 }
@@ -83,7 +85,6 @@ body {
 
 .letter {
     position: relative;
-    min-width: 0.6em;
     transition: color 0.1s;
 }
 
