@@ -52,5 +52,7 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-initTest();
-document.getElementById('caret').classList.add('idle');
+document.fonts.ready.then(() => {
+    initTest();
+    document.getElementById('caret').classList.add('idle');
+})

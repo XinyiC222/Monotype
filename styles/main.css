@@ -31,7 +31,6 @@ body {
     position: relative;
     width: 100%;
     max-width: 1000px;
-    padding: 2rem;
 }
 
 #caret {
@@ -56,11 +55,21 @@ body {
 }
 
 #words-wrapper {
-    height: 150px;
+    height: 4.5rem;
     overflow: hidden;
     position: relative;
-    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    /* mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 20%,
+        black 80%,
+        transparent 100%);
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        black 80%,
+        black 80%, 
+        transparent 100%); */
 }
 
 #words {
@@ -69,7 +78,7 @@ body {
     font-size: 1.5rem;
     line-height: 1.5;
     color: var(--sub-color);
-    transition: transform 0.25s ease;
+    /* transition: transform 0.25s ease; */
 }
 
 .word {

@@ -4,7 +4,7 @@ import { calcCaretPosition } from './caret.js';
 
 const wordsContainer = document.getElementById('words');
 const caret = document.getElementById('caret');
-const app = document.getElementById('app');
+const wordsWrapper = document.getElementById('words-wrapper');
 
 export function renderWords() {
     wordsContainer.innerHTML = '';
@@ -61,7 +61,7 @@ export function renderCaret() {
         targetElement = letters[letters.length - 1];
     }
     
-    const { x, y, height } = calcCaretPosition(targetElement, app);
+    const { x, y, height } = calcCaretPosition(targetElement, wordsWrapper);
     
     let finalX = x;
     if (state.activeLetter >= letters.length) {
@@ -73,8 +73,23 @@ export function renderCaret() {
     caret.classList.remove('idle');
 }
 
+export function scrollToActiveLine() {
+    const currentWordDiv = wordsContainer.children[state.activeWord];
+    if (!currentWordDiv) return;
+
+    const wordTop = currentWordDiv.offsetTop;
+    const lineHeight = 1.5 * 1.5 * 16;
+
+    let scrollOffset = 0;
+    if(wordTop >= lineHeight) {
+        scrollOffset = wordTop;
+    }
+
+    wordsContainer.style.transform = `translateY(-${scrollOffset}px)`;
+}
 export function render() {
     renderWords();
+    scrollToActiveLine();
     renderCaret();
 }
 

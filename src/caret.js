@@ -1,11 +1,10 @@
-export function calcCaretPosition(targetElement, appElement) {
+export function calcCaretPosition(targetElement, wrapperElement) {
     const targetRect = targetElement.getBoundingClientRect();
-    const appRect = appElement.getBoundingClientRect();
+    const wrapperRect = wrapperElement.getBoundingClientRect();
     
     // Calculate relative position
-    const x = targetRect.left - appRect.left;
-    const y = targetRect.top - appRect.top;
-    const height = targetRect.height;
+    const x = targetRect.left - wrapperRect.left;
+    const y = targetRect.top - wrapperRect.top;
 
-    return {x, y, height };
+    return {x, y, height: targetRect.height};
 }
