@@ -9,18 +9,32 @@
 <body>
 
     <main id="app">
-        
+        <!-- Timer is hidden by default via CSS now -->
+        <div id="timer">30</div>
+
         <div id="words-wrapper">
-            <!-- The independent caret -->
             <div id="caret" class="idle"></div>
-            <div id="words">
-                <!-- Words and letters will be injected here by JavaScript -->
-            </div>
+            <div id="words"></div>
         </div>
         
-        <p class="hint">Click anywhere to focus, then start typing...</p>
+        <p class="hint">Click anywhere to focus, or just start typing...</p>
+
+        <!-- Results Screen Overlay -->
+        <div id="results">
+            <div class="result-box">
+                <div class="stat">
+                    <span class="label">wpm</span>
+                    <span id="wpm-result" class="value">0</span>
+                </div>
+                <div class="stat">
+                    <span class="label">acc</span>
+                    <span id="acc-result" class="value">0%</span>
+                </div>
+            </div>
+            <button onclick="location.reload()">Next Test</button>
+        </div>
     </main>
 
-    <script type='module' src="src/main.js"></script>
+    <script type="module" src="src/main.js"></script>
 </body>
 </html>

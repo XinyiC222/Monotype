@@ -5,6 +5,8 @@ import { calcCaretPosition } from './caret.js';
 const wordsContainer = document.getElementById('words');
 const caret = document.getElementById('caret');
 const wordsWrapper = document.getElementById('words-wrapper');
+const timerElement = document.getElementById('timer');
+const resultScreen = document.getElementById('results');
 
 export function renderWords() {
     wordsContainer.innerHTML = '';
@@ -87,6 +89,38 @@ export function scrollToActiveLine() {
 
     wordsContainer.style.transform = `translateY(-${scrollOffset}px)`;
 }
+
+//update timer display
+export function updateTimerUI() {
+    if(timerElement) {
+        timerElement.textContent = state.timerLeft;
+    }
+}
+//calc stats and show results
+export function showResults() {
+    const resultScreen = document.getElementById('results');
+    if(!resultScreen) return;
+
+    let totalChars = 0;
+    let correctChars = 0;
+
+    state.words.forEach(word =>  {
+        word.typed.forEach((char, i) => {
+            totalChars++;
+            if(char === word.chars[i]) correctChars++;
+        });
+    });
+    const timeInMin = 30/60;
+    const wpm = Math.round((correctChars / 5) / timeInMin);
+    const accuracy = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 0;
+
+    document.getElementById('wpm-result').textContent = wpm;
+    document.getElementById('acc-result').textContent = accuracy + '%';
+
+    resultScreen.style.display = 'flex';
+    document.getElementById('caret').style.display = 'none';
+}
+
 export function render() {
     renderWords();
     scrollToActiveLine();

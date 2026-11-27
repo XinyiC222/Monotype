@@ -118,3 +118,70 @@ body {
     opacity: 1;
     transition: opacity 0.25s;
 }
+
+/*timer style */
+#timer {
+    position: absolute;
+    top: -3rem;
+    left: 0;
+    font-size: 1.5rem;
+    color: var(--main-color);
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+#timer.visible {
+    opacity: 1;
+}
+
+#results {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(32, 34, 37, 0.95);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.result-box {
+    display: flex;
+    gap: 5rem;
+    margin-bottom: 3rem;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat .label {
+    color: var(--sub-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.stat .value {
+    color: var(--main-color);
+    font-size: 5rem;
+    font-weight: bold;
+}
+
+button {
+    background: var(--sub-color);
+    color: var(--bg-color);
+    border: none;
+    padding: 0.8rem 2rem;
+    font-family: inherit;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: var(--main-color);
+}
