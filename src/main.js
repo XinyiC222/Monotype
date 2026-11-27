@@ -1,9 +1,9 @@
 import { state, resetState } from './state.js';
-import { buildWords, getActiveWord } from './words.js';
+import { buildWords, getActiveWord, loadWords } from './words.js';
 import { render, initFocusUI } from './render.js';
 
-function initTest() {
-    const wordStrings = ["hello", "world", "this", "is", "monotype"];
+async function initTest() {
+    const wordStrings = await loadWords(25);
     state.words = buildWords(wordStrings);
     resetState();
     render();
